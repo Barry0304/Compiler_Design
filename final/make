@@ -1,0 +1,5 @@
+yacc -d 40747031S_final.y
+lex 40747031S_final.l
+gcc lex.yy.c y.tab.c -ly -lfl -o 40747031s_final
+./40747031s_final < code.txt
+cat code.micro_ex

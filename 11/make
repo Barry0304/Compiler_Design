@@ -1,0 +1,9 @@
+yacc -d ch3-01.y
+lex ch3-01.l
+gcc lex.yy.c y.tab.c -ly -lfl  -o 40747031s_hw11
+./40747031s_hw11 <normal.c
+cc lex.yy.c y.tab.c -ll -ly
+
+gcc gen_bigc.c -o gen_bigc
+./gen_bigc 
+./40747031s_hw5 <big.c

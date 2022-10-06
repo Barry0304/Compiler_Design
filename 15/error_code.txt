@@ -1,0 +1,9 @@
+Program testP
+
+Begin 
+
+ declare I as integer;
+
+ declare A,B,C,D, LLL[100] float; 
+
+End

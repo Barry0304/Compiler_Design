@@ -1,0 +1,9 @@
+script 40747031S_midterm
+cat 40747031s_midterm.l
+cat code_with_error.txt
+cat exr_lex_test_data.txt
+lex 40747031s_midterm.l
+gcc lex.yy.c -lfl -o 40747031s_midterm
+./40747031s_midterm < code_with_error.txt
+./40747031s_midterm < exr_lex_test_data.txt
+exit

@@ -1,0 +1,7 @@
+lex 40747031s_hw5.l
+gcc lex.yy.c -lfl -o 40747031s_hw5
+./40747031s_hw5 <normal.c
+
+gcc gen_bigc.c -o gen_bigc
+./gen_bigc 
+./40747031s_hw5 <big.c

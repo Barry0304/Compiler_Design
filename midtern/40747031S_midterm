@@ -1,0 +1,339 @@
+Script started on Mon 18 Apr 2022 02:29:51 PM CST
+$ cat 40747031s_midterm.l
+%{
+#include <string.h>
+
+%}
+%%
+
+
+
+BEGIN|bigin {
+	printf("Token number =1, value is \"%s\"\n",yytext);
+}
+
+END|end {
+	printf("Token number =2, value is \"%s\"\n",yytext);
+}
+
+READ|read {
+	printf("Token number =3, value is \"%s\"\n",yytext);
+}
+
+WRITE|write {
+	printf("Token number =4, value is \"%s\"\n",yytext);
+}
+
+IF|if {
+	printf("Token number =25, value is \"%s\"\n",yytext);
+}
+
+THEN|then {
+	printf("Token number =26, value is \"%s\"\n",yytext);
+}
+
+ELSE|else {
+	printf("Token number =27, value is \"%s\"\n",yytext);
+}
+
+ENDIF|endif {
+	printf("Token number =28, value is \"%s\"\n",yytext);
+}
+
+FOR|for {
+	printf("Token number =29, value is \"%s\"\n",yytext);
+}
+
+TO|to {
+	printf("Token number =30, value is \"%s\"\n",yytext);
+}
+
+ENDFOR|endfor {
+	printf("Token number =31, value is \"%s\"\n",yytext);
+}
+
+WHILE|while {
+	printf("Token number =32, value is \"%s\"\n",yytext);
+}
+
+ENDWHILE|endwhile {
+	printf("Token number =33, value is \"%s\"\n",yytext);
+}
+
+DECLARE|declare {
+	printf("Token number =34, value is \"%s\"\n",yytext);
+}
+
+AS|as {
+	printf("Token number =35, value is \"%s\"\n",yytext);
+}
+
+INTEGER|integer {
+	printf("Token number =36, value is \"%s\"\n",yytext);
+}
+
+REAL|real {
+	printf("Token number =37, value is \"%s\"\n",yytext);
+}
+
+ScanEof {
+	printf("Token number =38, value is \"%s\"\n",yytext);
+}
+
+[a-zA-Z_][a-zA-Z0-9_]* {
+	printf("Token number =5, value is \"%s\"\n",yytext);
+}
+
+[0-9]+ {
+	printf("Token number =6, value is \"%s\"\n",yytext);
+}
+
+([0-9]*\.[0-9]+) {
+	printf("Token number =7, value is \"%s\"\n",yytext);
+}
+
+-?(([0-9]*\.[0-9]+)([eE][-+]?[0-9]+)?) {
+	printf("Token number =8, value is \"%s\"\n",yytext);
+}
+
+\"[^"\n]*["\n] {
+	printf("Token number =9, value is \"%s\"\n",yytext);
+}
+
+"(" {
+	printf("Token number =10, value is \"%s\"\n",yytext);
+}
+
+")" {
+	printf("Token number =11, value is \"%s\"\n",yytext);
+}
+
+";" {
+	printf("Token number =12, value is \"%s\"\n",yytext);
+}
+
+"," {
+	printf("Token number =13, value is \"%s\"\n",yytext);
+}
+
+":=" {
+	printf("Token number =14, value is \"%s\"\n",yytext);
+}
+
+"+" {
+	printf("Token number =15, value is \"%s\"\n",yytext);
+}
+
+"-" {
+	printf("Token number =16, value is \"%s\"\n",yytext);
+}
+
+"*" {
+	printf("Token number =17, value is \"%s\"\n",yytext);
+}
+
+"/" {
+	printf("Token number =18, value is \"%s\"\n",yytext);
+}
+
+"!=" {
+	printf("Token number =19, value is \"%s\"\n",yytext);
+}
+
+">" {
+	printf("Token number =20, value is \"%s\"\n",yytext);
+}
+
+"<" {
+	printf("Token number =21, value is \"%s\"\n",yytext);
+}
+
+">=" {
+	printf("Token number =22, value is \"%s\"\n",yytext);
+}
+
+"<=" {
+	printf("Token number =23, value is \"%s\"\n",yytext);
+}
+
+"==" {
+	printf("Token number =24, value is \"%s\"\n",yytext);
+}
+
+" "|\t|\&.|\n {
+	;
+}
+
+.	{
+	printf("lexical error, value is \"%s\"\n",yytext); 
+}
+
+
+
+%%
+
+main()
+{
+	yylex();
+	printf("End of the execution\n");
+}
+$ cat code_with_error.txt
+ declare A,I as integer;
+ IF (A===10000) THEN
+    print("Good!");
+ IF (A%10000==1) THEN
+    print("Good!");
+$ cat exr_lex_test_data.txt
+begin 
+ declare A,I as integer;
+ declare B,C,D,size as real;
+ declare PI;
+ declare LLL(100) AS REAL;
+
+ PI:=3.1416;
+ B:=PI*B*B+C/D+0.345E-6;
+ 
+ FOR (I:=1 TO 100)
+   C:=LLL(I)+B*D-C;
+ ENDFOR
+
+ IF (C>=10000) THEN
+    print("Good!");
+ ENDIF
+
+end 
+  
+    
+ 
+$ lex 40747031s_midterm.l
+$ gcc lex.yy.c -lfl -o 40747031s_midterm
+$ ./40747031s_midterm < code_with_error.txt
+Token number =34, value is "declare"
+Token number =5, value is "A"
+Token number =13, value is ","
+Token number =5, value is "I"
+Token number =35, value is "as"
+Token number =36, value is "integer"
+Token number =12, value is ";"
+lexical error, value is ""
+Token number =25, value is "IF"
+Token number =10, value is "("
+Token number =5, value is "A"
+Token number =24, value is "=="
+lexical error, value is "="
+Token number =6, value is "10000"
+Token number =11, value is ")"
+Token number =26, value is "THEN"
+lexical error, value is ""
+Token number =5, value is "print"
+Token number =10, value is "("
+Token number =9, value is ""Good!""
+Token number =11, value is ")"
+Token number =12, value is ";"
+lexical error, value is ""
+Token number =25, value is "IF"
+Token number =10, value is "("
+Token number =5, value is "A"
+lexical error, value is "%"
+Token number =6, value is "10000"
+Token number =24, value is "=="
+Token number =6, value is "1"
+Token number =11, value is ")"
+Token number =26, value is "THEN"
+lexical error, value is ""
+Token number =5, value is "print"
+Token number =10, value is "("
+Token number =9, value is ""Good!""
+Token number =11, value is ")"
+Token number =12, value is ";"
+lexical error, value is ""
+End of the execution
+$ ./40747031s_midterm < exr_lex_test_data.txt
+Token number =5, value is "begin"
+Token number =34, value is "declare"
+Token number =5, value is "A"
+Token number =13, value is ","
+Token number =5, value is "I"
+Token number =35, value is "as"
+Token number =36, value is "integer"
+Token number =12, value is ";"
+Token number =34, value is "declare"
+Token number =5, value is "B"
+Token number =13, value is ","
+Token number =5, value is "C"
+Token number =13, value is ","
+Token number =5, value is "D"
+Token number =13, value is ","
+Token number =5, value is "size"
+Token number =35, value is "as"
+Token number =37, value is "real"
+Token number =12, value is ";"
+Token number =34, value is "declare"
+Token number =5, value is "PI"
+Token number =12, value is ";"
+Token number =34, value is "declare"
+Token number =5, value is "LLL"
+Token number =10, value is "("
+Token number =6, value is "100"
+Token number =11, value is ")"
+Token number =35, value is "AS"
+Token number =37, value is "REAL"
+Token number =12, value is ";"
+Token number =5, value is "PI"
+Token number =14, value is ":="
+Token number =7, value is "3.1416"
+Token number =12, value is ";"
+Token number =5, value is "B"
+Token number =14, value is ":="
+Token number =5, value is "PI"
+Token number =17, value is "*"
+Token number =5, value is "B"
+Token number =17, value is "*"
+Token number =5, value is "B"
+Token number =15, value is "+"
+Token number =5, value is "C"
+Token number =18, value is "/"
+Token number =5, value is "D"
+Token number =15, value is "+"
+Token number =8, value is "0.345E-6"
+Token number =12, value is ";"
+Token number =29, value is "FOR"
+Token number =10, value is "("
+Token number =5, value is "I"
+Token number =14, value is ":="
+Token number =6, value is "1"
+Token number =30, value is "TO"
+Token number =6, value is "100"
+Token number =11, value is ")"
+Token number =5, value is "C"
+Token number =14, value is ":="
+Token number =5, value is "LLL"
+Token number =10, value is "("
+Token number =5, value is "I"
+Token number =11, value is ")"
+Token number =15, value is "+"
+Token number =5, value is "B"
+Token number =17, value is "*"
+Token number =5, value is "D"
+Token number =16, value is "-"
+Token number =5, value is "C"
+Token number =12, value is ";"
+Token number =31, value is "ENDFOR"
+Token number =25, value is "IF"
+Token number =10, value is "("
+Token number =5, value is "C"
+Token number =22, value is ">="
+Token number =6, value is "10000"
+Token number =11, value is ")"
+Token number =26, value is "THEN"
+Token number =5, value is "print"
+Token number =10, value is "("
+Token number =9, value is ""Good!""
+Token number =11, value is ")"
+Token number =12, value is ";"
+Token number =28, value is "ENDIF"
+Token number =2, value is "end"
+End of the execution
+$ exit
+
+Script done on Mon 18 Apr 2022 02:30:23 PM CST

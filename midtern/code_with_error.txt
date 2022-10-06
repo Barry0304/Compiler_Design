@@ -1,0 +1,5 @@
+ declare A,I as integer;
+ IF (A===10000) THEN
+    print("Good!");
+ IF (A%10000==1) THEN
+    print("Good!");
